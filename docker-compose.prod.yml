@@ -51,9 +51,6 @@ services:
     restart: unless-stopped
     ports:
       - "8085:80"
-    volumes:
-      - ./:/var/www/html:ro
-      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
     networks:
       - hookbytes-network
     depends_on:
