@@ -44,14 +44,15 @@ services:
       retries: 3
 
   nginx:
-    image: nginx:alpine
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
     container_name: hookbytes-nginx-prod
     restart: unless-stopped
     ports:
       - "8085:80"
     volumes:
       - ./:/var/www/html:ro
-      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./docker/nginx/ssl:/etc/nginx/ssl:ro
     networks:
       - hookbytes-network
@@ -64,7 +65,9 @@ services:
       retries: 3
 
   db:
-    image: mysql:8.0
+    build:
+      context: .
+      dockerfile: docker/mysql/Dockerfile
     container_name: hookbytes-db-prod
     restart: unless-stopped
     environment:
@@ -74,7 +77,6 @@ services:
       MYSQL_USER: ${DB_USERNAME}
     volumes:
       - hookbytes-db-data:/var/lib/mysql
-      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     networks:
       - hookbytes-network
     healthcheck:
