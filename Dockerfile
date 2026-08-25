@@ -84,11 +84,5 @@ COPY docker/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/php/php.ini /usr/local/etc/php/php.ini
 COPY docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
-# Generate application key and optimize
-RUN php artisan key:generate --no-interaction \
-    && php artisan config:cache \
-    && php artisan route:cache \
-    && php artisan view:cache
-
 EXPOSE 9000
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
