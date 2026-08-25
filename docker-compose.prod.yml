@@ -17,8 +17,26 @@ services:
       - db
       - redis
     environment:
-      - APP_ENV=production
-      - APP_DEBUG=false
+      APP_NAME: HookBytes
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL}
+      APP_KEY: ${APP_KEY}
+
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
     healthcheck:
       test: ["CMD", "php", "artisan", "tinker", "--execute=echo 'OK';"]
       interval: 30s
