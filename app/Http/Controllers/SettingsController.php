@@ -13,7 +13,7 @@ class SettingsController extends Controller
     public function index()
     {
         $settings = Settings::current();
-        return view('dashboard.settings', compact('settings'));
+        return view('dashboard.settings.index', compact('settings'));
     }
 
     /**
