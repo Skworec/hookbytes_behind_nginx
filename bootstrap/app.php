@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -16,10 +17,21 @@ return Application::configure(basePath: dirname(__DIR__))
             'force.https' => \App\Http\Middleware\ForceHttps::class,
             'api.auth' => \App\Http\Middleware\ApiAuthentication::class,
         ]);
-        
+
+        $middleware->trustProxies(
+            at: '*',
+            headers:
+                Request::HEADER_X_FORWARDED_FOR |
+                Request::HEADER_X_FORWARDED_HOST |
+                Request::HEADER_X_FORWARDED_PORT |
+                Request::HEADER_X_FORWARDED_PROTO |
+                Request::HEADER_X_FORWARDED_AWS_ELB
+        );
+
         // CSRF handling moved to avoid container resolution issues
         // $middleware->remove(\Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })->create();
+    })
+    ->create();
