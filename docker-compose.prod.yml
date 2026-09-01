@@ -37,6 +37,8 @@ services:
       CACHE_DRIVER: redis
       QUEUE_CONNECTION: redis
       SESSION_DRIVER: redis
+      SESSION_SECURE_COOKIE: ${SESSION_SECURE_COOKIE}
+      SESSION_SAME_SITE: ${SESSION_SAME_SITE}
     healthcheck:
       test: ["CMD", "php", "artisan", "tinker", "--execute=echo 'OK';"]
       interval: 30s
